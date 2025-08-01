@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import 'leaflet/dist/leaflet.css';
+
+body {
+    background-color: #1c1c1e;
+        color: white;
+        font-family: 'IBM Plex Sans', sans-serif; }
