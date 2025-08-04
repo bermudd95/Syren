@@ -44,7 +44,10 @@ function VideoPreview() {
 
 	return (
 		<div className="rounded-2xl backdrop-blur-md bg-slate-900/30 border border-slate-700 shadow-lg p-4 text-white">
-			<div className=" h-[400px] overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-600">
+			<div className=" h-[400px] overflow-y-scroll scrollbar-hide">
+				<h2 className="text-lg font-semibold mb-4">
+					Live Feed
+				</h2>
 				<div className="grid grid-cols-2 gap-3">
 					{cameraFeeds.map((cam) => (
 						<div

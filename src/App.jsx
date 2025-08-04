@@ -25,9 +25,6 @@ export default function App() {
 					<IncidentLog />
 
 					<div className="bg-gradient-to-r from-slate-700/30 to-slate-900/50 backdrop-blur-md rounded-xl border border-white/10 shadow-sm p-6 text-white">
-						<h2 className="text-xl font-bold mb-4">
-							Edit Zone
-						</h2>
 						<MapCard />
 					</div>
 				</div>

@@ -1,18 +1,17 @@
 import React from "react";
+import TopNav from "../components/TopNav";
 
 function SettingsPage() {
 	return (
-		<div className="min-h-screen bg-gray-900 text-white px-6 py-4">
-			<header className="flex items-center justify-between mb-6">
-				<h1 className="text-2xl font-semibold">
-					Syren
-				</h1>
-				<h1 className="text-2xl font-bold">
+		<div className="min-h-screen text-white">
+			<TopNav />
+			<header className="flex justify-between items-center px-6 pt-4">
+				<h1 className="text-2xl font-semibold text-white">
 					Settings
 				</h1>
 			</header>
 
-			<section className="grid md:grid-cols-2 gap-6">
+			<section className="grid md:grid-cols-2 gap-6 px-6 py-4">
 				<div className="bg-gray-800 p-4 rounded shadow">
 					<h2 className="text-lg font-semibold mb-2">
 						Notification Preferences

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
 export default function TopNav() {
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdownRef = useRef(null);
@@ -7,6 +7,8 @@ export default function TopNav() {
 	const toggleDropdown = () => {
 		setIsOpen((prev) => !prev);
 	};
+
+	const navigate = useNavigate();
 
 	const handleClickOutside = (e) => {
 		if (
@@ -56,14 +58,25 @@ export default function TopNav() {
 			}
           `}
 				>
-					<ul className="divide-y divide-gray-200">
-						<li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+					<ul className="flex flex-col divide-gray-200">
+						<Link
+							to="/"
+							className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
+						>
 							Dashboard
-						</li>
-						<li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+						</Link>
+						<Link
+							to="/settings"
+							className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
+						>
 							Settings
-						</li>
-						<li className="px-4 py-3 hover:bg-gray-100 cursor-pointer">
+						</Link>
+						<li
+							className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
+							onClick={() =>
+								navigate("/login")
+							}
+						>
 							Log Out
 						</li>
 					</ul>
