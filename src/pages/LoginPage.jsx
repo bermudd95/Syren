@@ -1,39 +1,38 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
+import logo from "../assets/Logo 1.png";
 
 export default function LoginPage() {
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
 	});
-
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const handleChange = (e) => {
-		setForm({
-			...form,
+	const handleChange = (e) =>
+		setForm((prev) => ({
+			...prev,
 			[e.target.name]: e.target.value,
-		});
-	};
+		}));
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const res = await fetch(
-			"http://localhost:5000/api/auth/forgot-password",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(form),
-			},
-		);
-		const data = await res.json();
-		console.log(data);
-		if (res.ok) {
+		setLoading(true);
+		try {
+			await signInWithEmailAndPassword(
+				auth,
+				form.email,
+				form.password,
+			);
 			navigate("/");
-		} else {
-			alert(data.message || "Registration failed");
+		} catch (err) {
+			console.error("Login error:", err);
+			alert(err.message || "Login failed");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -41,11 +40,12 @@ export default function LoginPage() {
 		<div className="flex flex-col justify-center items-center h-screen bg-slate-900">
 			<div className="justify-center items-center pb-3">
 				<img
-					src="./src/assets/Logo 1.png"
-					alt="Logo image"
+					src={logo}
+					alt="Logo"
 					className="h-40 w-auto rounded-lg"
 				/>
 			</div>
+
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white text-black p-6 rounded-xl shadow-xl w-96"
@@ -53,6 +53,7 @@ export default function LoginPage() {
 				<h2 className="text-2xl font-semibold mb-4 text-center">
 					Login
 				</h2>
+
 				<input
 					type="email"
 					value={form.email}
@@ -60,7 +61,9 @@ export default function LoginPage() {
 					placeholder="Email"
 					className="w-full p-2 mb-3 border rounded"
 					onChange={handleChange}
+					required
 				/>
+
 				<input
 					type="password"
 					name="password"
@@ -68,13 +71,17 @@ export default function LoginPage() {
 					placeholder="Password"
 					className="w-full p-2 mb-3 border rounded"
 					onChange={handleChange}
+					required
 				/>
+
 				<button
 					type="submit"
-					className="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded"
+					disabled={loading}
+					className="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded disabled:opacity-60"
 				>
-					Login
+					{loading ? "Signing in..." : "Login"}
 				</button>
+
 				<div className="text-sm mt-3 text-center">
 					<Link
 						to="/forgot-password"

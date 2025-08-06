@@ -1,13 +1,19 @@
 import { useState } from "react";
-export default function ResetPasswordPage() {
+import logo from "../assets/Logo 1.png";
+
+export default function ForgotPassword() {
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true);
+		setMessage("");
 		try {
+			// Use full backend URL if not proxied by Vite
 			const res = await fetch(
-				"http://localhost:5000/api/auth/forgot-password",
+				"http://localhost:5000/api/password/send-reset",
 				{
 					method: "POST",
 					headers: {
@@ -17,39 +23,46 @@ export default function ResetPasswordPage() {
 				},
 			);
 
+			// For cross-origin dev: if your backend runs on another port, use full URL:
+			// const res = await fetch("http://localhost:5000/api/password/send-reset", { ... });
+
 			if (!res.ok) {
-				const errorText = await res.text();
-				console.error("Server error:", errorText);
-				setMessage(
-					"Something went wrong. Please try again.",
+				const err = await res
+					.json()
+					.catch(() => null);
+				throw new Error(
+					err?.message ||
+						"Failed to send reset email",
 				);
-				return;
 			}
-			const data = await res.json();
+
 			setMessage(
-				data.message ||
-					"Password reset email sent.",
+				"If the email exists, you will receive a reset link shortly. Check your inbox for an email from Syren Security.",
 			);
+			setEmail("");
 		} catch (err) {
-			console.error("Error sending reset link:", err);
-			setMessage("Error sending reset link.");
+			console.error("Reset email error:", err);
+			setMessage(
+				err.message || "Error sending reset email.",
+			);
+		} finally {
+			setLoading(false);
 		}
 	};
+
 	return (
 		<div className="flex flex-col justify-center items-center h-screen bg-slate-900">
-			<div className="justify-center items-center pb-3">
-				<img
-					src="./src/assets/Logo 1.png"
-					alt="Logo image"
-					className="h-40 w-auto rounded-lg"
-				/>
-			</div>
+			<img
+				src={logo}
+				alt="Logo"
+				className="h-40 mb-4"
+			/>
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white text-black p-6 rounded-xl shadow-xl w-96"
 			>
 				<h2 className="text-2xl font-semibold mb-4 text-center">
-					Set New Password
+					Reset Password
 				</h2>
 				<input
 					type="email"
@@ -64,12 +77,15 @@ export default function ResetPasswordPage() {
 				/>
 				<button
 					type="submit"
-					className="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded"
+					disabled={loading}
+					className="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded disabled:opacity-60"
 				>
-					Reset Password
+					{loading
+						? "Sending..."
+						: "Send Reset Email"}
 				</button>
 				{message && (
-					<p className="mt-3 text-sm text-center text-gray-300">
+					<p className="mt-3 text-sm text-center text-gray-700">
 						{message}
 					</p>
 				)}
