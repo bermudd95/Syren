@@ -23,4 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
-serviceAccountKey.json
+
+# Firebase Admin key
+src/backend/config/serviceAccountKey.json
+
