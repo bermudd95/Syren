@@ -25,5 +25,7 @@ dist-ssr
 .env
 
 # Firebase Admin key
+serviceAccountKey.json
 src/backend/config/serviceAccountKey.json
+
 
