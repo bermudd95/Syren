@@ -1,33 +1,29 @@
 import dotenv from "dotenv";
-dotenv.config(); // MUST run before any code that reads process.env
+dotenv.config();
 
 import express from "express";
 import cors from "cors";
 import path from "path";
 
-// import your routes AFTER dotenv.config()
+import assistanceRoutes from "./src/backend/routes/assistanceRoutes.js";
+import adminRoutes from "./src/backend/routes/adminRequests.js";
 import passwordRoutes from "./routes/passwordRoutes.js";
 // import any other route files similarly (assistanceRoutes, authRoutes, etc.)
 
 const app = express();
-
 const PORT = process.env.PORT || 5000;
-
-// Basic middleware
-app.use(express.json());
-
-// CORS: allow your frontend origin (adjust if using different host/port)
 const FRONTEND =
 	process.env.VITE_FRONTEND_URL ||
 	"http://localhost:5173";
-app.use(cors({ origin: FRONTEND, credentials: true }));
 
-// Serve static files (logo, etc.) from a public folder if present
-// e.g., place logo at /public/logo.png and it will be available at http://localhost:5000/logo.png
+app.use(express.json());
+app.use(cors({ origin: FRONTEND, credentials: true }));
 app.use(express.static(path.join(process.cwd(), "public")));
 
 // Mount routes
 app.use("/api/password", passwordRoutes);
+app.use("/api/assistance", assistanceRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Catch-all simple health check
 app.get("/health", (req, res) =>
@@ -41,6 +37,7 @@ app.use("/api", (req, res) =>
 		.json({ message: "API route not found" }),
 );
 
+app.get("/health", (req, res) => res.json({ ok: true }));
 app.listen(PORT, () => {
 	console.log(
 		`Server running on http://localhost:${PORT}`,

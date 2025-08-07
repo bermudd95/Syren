@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node src/backend/server.js"
+    "start": "node src/backend/server.js",
+    "set-admin": "node scripts/setAdminClaim.js"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
@@ -18,14 +19,17 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
     "firebase": "^12.0.0",
     "firebase-admin": "^13.4.0",
+    "joi": "^18.0.0",
     "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "mongoose": "^8.17.0",
     "nodemailer": "^7.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.62.0",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.6.3",
     "tailwind-scrollbar-hide": "^4.0.0"
