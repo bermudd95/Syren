@@ -18,6 +18,8 @@ import AdminRequestView from "./pages/AdminRequestView";
 import RoleSelect from "./pages/RoleSelect";
 import SecurityLogin from "./pages/SecurityLogin";
 import GuardDashboard from "./pages/GuardDashboard";
+import CheckIn from "./pages/GuardCheckIn";
+import CheckOut from "./pages/GuardCheckOut";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
@@ -43,6 +45,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 				<Route
 					path="/guard/dashboard"
 					element={<GuardDashboard />}
+				/>
+				<Route
+					path="/guard/check-in"
+					element={<CheckIn />}
+				/>
+				<Route
+					path="/guard/check-out"
+					element={<CheckOut />}
 				/>
 				<Route
 					path="/register"
